@@ -1,13 +1,24 @@
-from langchain.llms import OpenAI
-from dotenv import load_dotenv
+from transformers import AutoModelForCausalLM, AutoTokenizer
+from dotenv import dotenv_values
 
-load_dotenv()
+env = dotenv_values(".env")
 
 
-def generate_text(prompt: str):
-    llm = OpenAI(temperature=0.75)
-    return llm(prompt)
+class TextGenerator:
+    checkpoint = env.get("CODEGEN_MODEL")
+
+    def __init__(self):
+        self.model = AutoModelForCausalLM.from_pretrained(TextGenerator.checkpoint)
+        self.tokenizer = AutoTokenizer.from_pretrained(TextGenerator.checkpoint)
+
+    def generate_text(self, text: str):
+        return self.model.generate(**self.tokenizer(text, return_tensors="pt"))
+
+    def print(self, text: str):
+        print(self.tokenizer.decode(text[0]))
 
 
 if __name__ == "__main__":
-    print(generate_text(input(">_: ")))
+    text_generator = TextGenerator()
+    generated_text = text_generator.generate_text(input(">_: "))
+    text_generator.print(generated_text)
