@@ -1,8 +1,8 @@
-from langchain.agents import load_tools, initialize_agent, AgentType
-from text_generator import TextGenerator
+from langchain.agents import create_react_agent
+from langchain_community.agent_toolkits.load_tools import load_tools
 
 
-def agent():
-    m = TextGenerator()
-    tools = load_tools(["wikipedia", "llm-math"], llm=m.model)
-
+def invoke_agent(llm, prompt):
+    tools = load_tools(["llm-math"], llm=llm)
+    agent = create_react_agent(tools=tools, llm=llm, prompt=prompt)
+    return agent.invoke(prompt)
