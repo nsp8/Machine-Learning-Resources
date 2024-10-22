@@ -1,0 +1,12 @@
+blobfile
+langchain
+langchain-community
+langchain-core
+langchain-huggingface
+langchain-openai
+openai
+python-dotenv
+sentencepiece
+streamlit
+transformers
+tiktoken
