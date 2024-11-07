@@ -1,3 +1,4 @@
+from torch import tensor, long
 from collections import defaultdict
 import string
 
@@ -15,6 +16,7 @@ class CharacterLevelTokenizer:
             f"{string.whitespace}"
         )
         self.n_vocab = len(self.all_characters)
+        self.tokens = None
         for i, char in enumerate(self.all_characters):
             self.char_to_int[char] = i
             self.int_to_char[i] = char
@@ -25,3 +27,5 @@ class CharacterLevelTokenizer:
     def decode(self, value: list) -> str:
         return "".join([self.int_to_char[c] for c in value])
 
+    def set_tokens(self, text):
+        self.tokens = tensor(self.encode(text), dtype=long)
