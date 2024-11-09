@@ -46,3 +46,11 @@ def display_tokenized_chunks(data: tuple, chunk_size: int, batch_size: int):
             context = x[batch, :chunk+1]
             target = y[batch, chunk]
             print(f"When input is {context.tolist()}, the target is: {target}")
+
+
+def show_loss_information(losses: dict, iteration: int):
+    print(
+        f"Step {iteration} "
+        f"training loss: {losses['TRAIN']:.4f} "
+        f"validation loss: {losses['TEST']:.4f}"
+    )
